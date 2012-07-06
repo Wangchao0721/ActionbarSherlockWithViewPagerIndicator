@@ -11,7 +11,8 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ListNavigation extends SherlockActivity implements ActionBar.OnNavigationListener {
+public class ListNavigation extends SherlockActivity implements
+        ActionBar.OnNavigationListener {
     private TextView mSelected;
     private String[] mLocations;
 
@@ -74,4 +75,5 @@ public class ListNavigation extends SherlockActivity implements ActionBar.OnNavi
 
         return true;
     }
+
 }
