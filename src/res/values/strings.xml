@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ABSWithVPI</string>
+
+    <string name="list_navigation">校园招聘</string>
+    <string name="list_navigation_content">List navigation requires the use of a special layout for the spinner item. Failure to use it will result in your spinner text being the same color as the action bar background on pre-3.0. See the source code of this demo for more information.</string>
+
+</resources>
