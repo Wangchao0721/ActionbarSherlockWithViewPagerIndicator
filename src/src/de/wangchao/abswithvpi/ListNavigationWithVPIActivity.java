@@ -120,7 +120,7 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
     /* FRAGMENT */
     /************************************************************************/
     public static class TitlesFragment extends SherlockListFragment {
-        public static final String TAG = "DetailsFragment";
+        public static final String TAG = "TitlesFragment";
 
         String[] mTitles = {};
 
@@ -142,6 +142,8 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
 
             super.onSaveInstanceState(outState);
             outState.putInt("curChoice", mCurCheckPosition);
+            outState.putSerializable("titles", mTitles);
+
         }
 
         // Created
@@ -184,6 +186,12 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
             super.onActivityCreated(savedInstanceState);
 
             Tools.debugLog(TAG, "onActivityCreated");
+
+            if (savedInstanceState != null) {
+                // Restore last state for checked position.
+                mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
+                mTitles = (String[]) savedInstanceState.getSerializable("titles");
+            }
 
             this.setListAdapter(new ArrayAdapter<String>(getActivity(),
                     R.layout.simple_list_item_checkable_1, android.R.id.text1, mTitles));
