@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ListNavigation extends SherlockActivity implements
+public class ListNavigationActivity extends SherlockActivity implements
         ActionBar.OnNavigationListener {
     private TextView mSelected;
     private String[] mLocations;
@@ -24,7 +24,7 @@ public class ListNavigation extends SherlockActivity implements
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.list_navigation);
+        setContentView(R.layout.activity_list_navigation);
         mSelected = (TextView) findViewById(R.id.text);
 
         mLocations = getResources().getStringArray(R.array.locations);

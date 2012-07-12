@@ -7,4 +7,19 @@
         <item>北京</item>
         <item>深圳</item>
     </string-array>
+
+   <string-array name="songs_recent">
+        <item>忘情水</item>
+        <item>我们都是孩子</item>
+        <item>伤不起</item>
+        <item>冰雨</item>
+    </string-array>
+
+   <string-array name="artists">
+        <item>刘德华</item>
+        <item>张学友</item>
+        <item>梁咏琪</item>
+        <item>凤凰传奇</item>
+    </string-array>
+
 </resources>

@@ -10,8 +10,8 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ListNavigationWithVPI"
-            android:label="ListNavigation"
+            android:name=".ListNavigationWithVPIActivity"
+            android:label="ListNavigationWithVPI"
             android:theme="@style/StyledIndicators">
             <intent-filter >
                 <action
@@ -19,6 +19,18 @@
                 <category
                     android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".DetailsActivity"
+            android:label=".DetailsActivity"
+            android:theme="@style/StyledIndicators">
+        </activity>
+
+        <activity
+            android:name=".ListNavigationActivity"
+            android:label=".ListNavigation"
+            android:theme="@style/StyledIndicators">
         </activity>
 
     </application>
