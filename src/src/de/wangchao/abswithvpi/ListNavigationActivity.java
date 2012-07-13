@@ -27,11 +27,11 @@ public class ListNavigationActivity extends SherlockActivity implements
         setContentView(R.layout.activity_list_navigation);
         mSelected = (TextView) findViewById(R.id.text);
 
-        mLocations = getResources().getStringArray(R.array.locations);
+        mLocations = getResources().getStringArray(R.array.navigation);
 
         Context context = getSupportActionBar().getThemedContext();
         ArrayAdapter<CharSequence> list = ArrayAdapter.createFromResource(context,
-                R.array.locations, R.layout.sherlock_spinner_item);
+                R.array.navigation, R.layout.sherlock_spinner_item);
         list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);

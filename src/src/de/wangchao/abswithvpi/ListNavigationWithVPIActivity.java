@@ -2,13 +2,14 @@
 package de.wangchao.abswithvpi;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.viewpagerindicator.PageIndicator;
 import com.viewpagerindicator.TabPageIndicator;
 
+import de.wangchao.abswithvpi.DetailsActivity.DetailsFragment;
 import de.wangchao.abswithvpi.tools.Tools;
 
 import android.app.Activity;
@@ -17,10 +18,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -30,7 +34,7 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
         ActionBar.OnNavigationListener {
     private static final String TAG = "ListNavigationWithV";
 
-    private static final String[] CONTENT = new String[] {
+    private static String[] CONTENT = new String[] {
             "Recent", "Artists", "Albums", "Songs", "Playlists", "Genres"
     };
 
@@ -54,12 +58,15 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
         // List Navigation
         Context context = getSupportActionBar().getThemedContext();
         ArrayAdapter<CharSequence> list = ArrayAdapter.createFromResource(context,
-                R.array.locations, R.layout.sherlock_spinner_item);
+                R.array.navigation, R.layout.sherlock_spinner_item);
         list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         getSupportActionBar().setListNavigationCallbacks(list, this);
-        getSupportActionBar().setTitle(getString(R.string.list_navigation));
+        // getSupportActionBar().setDisplayShowTitleEnabled(true);
+        // getSupportActionBar().setTitle(getString(R.string.list_navigation));
+
+        CONTENT = getResources().getStringArray(R.array.job_tabs);
 
         // Song List
         mSongs = getResources().getStringArray(R.array.songs_recent);
@@ -93,15 +100,12 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
         // boolean isLight = SampleList.THEME == R.style.Theme_Sherlock_Light;
         boolean isLight = true;
 
-        menu.add("Save").setIcon(isLight ? R.drawable.ic_compose_inverse : R.drawable.ic_compose)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-        menu.add("Search").setIcon(isLight ? R.drawable.ic_search_inverse : R.drawable.ic_search)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
         menu.add("Refresh")
                 .setIcon(isLight ? R.drawable.ic_refresh_inverse : R.drawable.ic_refresh)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+        menu.add("Search").setIcon(isLight ? R.drawable.ic_search_inverse : R.drawable.ic_search)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         menu.add("Save").setIcon(isLight ? R.drawable.ic_compose_inverse : R.drawable.ic_compose)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -119,13 +123,16 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
     /************************************************************************/
     /* FRAGMENT */
     /************************************************************************/
-    public static class TitlesFragment extends SherlockListFragment {
+    public static class TitlesFragment extends SherlockFragment {
         public static final String TAG = "TitlesFragment";
 
         String[] mTitles = {};
 
         boolean mDualPane;
         int mCurCheckPosition = 0;
+
+        ListView mLv;
+        View mDetailFrame;
 
         public static TitlesFragment newInstance(String[] content) {
 
@@ -161,6 +168,7 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
             super.onCreate(savedInstanceState);
 
             Tools.debugLog(TAG, "onCreate");
+
         }
 
         @Override
@@ -168,8 +176,15 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
                 Bundle savedInstanceState) {
 
             Tools.debugLog(TAG, "onCreateView");
-            // TODO Auto-generated method stub
-            return super.onCreateView(inflater, container, savedInstanceState);
+            View v = inflater.inflate(R.layout.fragment_titles, container, false);
+            mLv = (ListView) (v.findViewById(R.id.titles_lv));
+
+            // Check to see if we have a frame in which to embed the details
+            // fragment directly in the containing UI.
+            mDetailFrame = v.findViewById(R.id.titles_details);
+            mDualPane = mDetailFrame != null && mDetailFrame.getVisibility() == View.VISIBLE;
+
+            return v;
         }
 
         @Override
@@ -193,10 +208,26 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
                 mTitles = (String[]) savedInstanceState.getSerializable("titles");
             }
 
-            this.setListAdapter(new ArrayAdapter<String>(getActivity(),
+            mLv.setAdapter(new ArrayAdapter<String>(getActivity(),
                     R.layout.simple_list_item_checkable_1, android.R.id.text1, mTitles));
+            mLv.setOnItemClickListener(new OnItemClickListener() {
 
-            // TODO: Deal with Double Panel for detail
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    showDetails(position);
+
+                }
+
+            });
+
+            if (mDualPane) {
+                // In dual-pane mode, the list view highlights the selected
+                // item.
+                mLv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                // Make sure our UI is in the correct state.
+                showDetails(mCurCheckPosition);
+            }
         }
 
         // Started
@@ -261,18 +292,27 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
         }
 
         // UI Interactive Methods
-        @Override
-        public void onListItemClick(ListView l, View v, int position, long id) {
-
-            showDetails(position);
-        }
 
         void showDetails(int index) {
 
             mCurCheckPosition = index;
 
             if (mDualPane) {
-                // TODO: Deal with Double Panel for detail
+                mLv.setItemChecked(index, true);
+
+                DetailsFragment details = (DetailsFragment) getFragmentManager().findFragmentById(
+                        R.id.titles_details);
+                if (details == null || details.getShownIndex() != index) {
+                    // Make new fragment to show this selection.
+                    details = DetailsFragment.newInstance(index);
+
+                    // Execute a transaction, replacing any existing fragment
+                    // with this one inside the frame.
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.titles_details, details);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
+                }
             } else {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), DetailsActivity.class);
@@ -292,7 +332,6 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
         @Override
         public Fragment getItem(int position) {
 
-            // TODO: Transfer String Array to TabItemFragment
             if (position < 2) {
                 return TitlesFragment.newInstance(mLists.get(position));
             } else {

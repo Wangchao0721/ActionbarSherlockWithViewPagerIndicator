@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="locations">
-        <item>武汉</item>
-        <item>上海</item>
-        <item>北京</item>
-        <item>深圳</item>
+    <string-array name="navigation">
+        <item>职位</item>
+        <item>拓展人脉</item>
+        <item>wangchao0721</item>
+    </string-array>
+
+    <string-array name="job_tabs">
+        <item>人脉职位</item>
+        <item>全部职位</item>
+        <item>附近职位</item>
     </string-array>
 
    <string-array name="songs_recent">

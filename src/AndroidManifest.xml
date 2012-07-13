@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ListNavigationWithVPIActivity"
-            android:label="ListNavigationWithVPI"
+            android:label="@string/ybole"
             android:theme="@style/StyledIndicators">
             <intent-filter >
                 <action
@@ -23,13 +23,13 @@
 
         <activity
             android:name=".DetailsActivity"
-            android:label=".DetailsActivity"
+            android:label="@string/ybole"
             android:theme="@style/StyledIndicators">
         </activity>
 
         <activity
             android:name=".ListNavigationActivity"
-            android:label=".ListNavigation"
+            android:label="@string/ybole"
             android:theme="@style/StyledIndicators">
         </activity>
 
