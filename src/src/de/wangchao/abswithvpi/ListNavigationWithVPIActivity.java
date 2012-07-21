@@ -146,14 +146,11 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
             return fragment;
         }
 
-        @Override
-        public void onSaveInstanceState(Bundle outState) {
-
-            super.onSaveInstanceState(outState);
-            outState.putInt("curChoice", mCurCheckPosition);
-            outState.putSerializable("titles", mTitles);
-
-        }
+        /*
+         * @Override public void onSaveInstanceState(Bundle outState) {
+         * super.onSaveInstanceState(outState); outState.putInt("curChoice",
+         * mCurCheckPosition); outState.putSerializable("titles", mTitles); }
+         */
 
         // Created
         @Override
@@ -171,6 +168,7 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
 
             Tools.debugLog(TAG, "onCreate");
 
+            setRetainInstance(true);
         }
 
         @Override
@@ -204,11 +202,12 @@ public class ListNavigationWithVPIActivity extends SherlockFragmentActivity impl
 
             Tools.debugLog(TAG, "onActivityCreated");
 
-            if (savedInstanceState != null) {
-                // Restore last state for checked position.
-                mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
-                mTitles = (String[]) savedInstanceState.getSerializable("titles");
-            }
+            /*
+             * if (savedInstanceState != null) { // Restore last state for
+             * checked position. mCurCheckPosition =
+             * savedInstanceState.getInt("curChoice", 0); mTitles = (String[])
+             * savedInstanceState.getSerializable("titles"); }
+             */
 
             mLv.setAdapter(new ArrayAdapter<String>(getActivity(),
                     R.layout.simple_list_item_checkable_1, android.R.id.text1, mTitles));
