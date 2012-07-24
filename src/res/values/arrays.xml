@@ -2,15 +2,15 @@
 <resources>
 
     <string-array name="navigation">
-        <item>职位</item>
-        <item>拓展人脉</item>
-        <item>wangchao0721</item>
+        <item>项目一</item>
+        <item>项目二</item>
+        <item>项目三</item>
     </string-array>
 
     <string-array name="job_tabs">
-        <item>人脉职位</item>
-        <item>全部职位</item>
-        <item>附近职位</item>
+        <item>我的圈子</item>
+        <item>全部</item>
+        <item>附近</item>
     </string-array>
 
    <string-array name="songs_recent">

@@ -12,6 +12,9 @@
     <string name="list2">List2</string>
     <string name="list3">List3</string>
 
+    <string name="tab1">我的圈子</string>
+    <string name="tab2">全部</string>
+
     <string name="empty_applist">没有程序</string>
     <string name="empty_phonelist">没有联系人</string>
 </resources>
